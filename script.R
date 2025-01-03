@@ -86,26 +86,82 @@ msleep[missing, ]
 
 # Clean
 ##########
-# Select variables
+# Load the necessary libraries
+library(dplyr)
+library(tidyverse) # This loads dplyr and other useful packages
+
+# Select specific columns
 starwars %>% 
   select(name, height, mass)
 
+# Select the first three columns
 starwars %>% 
   select(1:3)
 
+# View columns that end with "color"
 starwars %>% 
   select(ends_with("color")) %>% 
   View()
 
 # Changing variable order
-
 starwars %>% 
   select(name, mass, height, everything()) %>% 
   View()
 
 # Changing variable name
 starwars %>% 
-  rename("characters" = "name") %>% 
+  rename(characters = name) %>% 
   head()
 
-# Changing variable name
+# Changing variable type
+class(starwars$hair_color)
+starwars$hair_color <-as.factor(starwars$hair_color)
+
+class(starwars$hair_color)
+  
+starwars %>% 
+  mutate(hair_color = as.character(hair_color)) %>% 
+  glimpse()
+
+# Changing factor levels
+df <- starwars
+df$sex <- as.factor(df$sex)
+
+levels(df$sex)
+
+df <- df %>% 
+  mutate(sex = factor(sex,
+                      levels = c("male", "female", "hermaphroditic", "none"
+                                 )))
+levels(df$sex)
+
+# Filter rows
+starwars %>% 
+  select(mass, sex) %>% 
+  filter(mass < 55 & sex == "male")
+
+# Recode data
+starwars %>% 
+  select(sex) %>% 
+  mutate(sex = recode(sex,
+                      "male" = "man",
+                      "female" = "woman"))
+
+# Dealing with missing data
+mean(starwars$height, na.rm = TRUE)
+
+# Dealing with duplicates
+Names <- c("Peter", "John", "Andrew", "Peter")
+Age <- c(22, 33, 44, 22)
+friends <- data.frame(Names, Age)
+friends
+
+friends %>% 
+  distinct()
+
+distinct(friends)
+
+
+# Manipulate
+###########
+# Create or change a variable (mutate)
