@@ -287,6 +287,19 @@ starwars %>%
   filter(mass < 200) %>% 
   ggplot(aes(height, mass, color = sex))+
   geom_point(size = 5, alpha = 0.5)+
+  theme_minimal()+
+  labs(title = "Height and mass by sex")
+
+# Smoothed model (smoothed linear model)
+library(ggplot2)
+library(dplyr)
+
+starwars %>% 
+  filter(mass < 200) %>% 
+  ggplot(aes(height, mass, color = sex))+
+  geom_smooth(se = FALSE, method = "loess") + # added se = FALSE to remove confidence interval
+  geom_point() + # added geom_point() to include scatter points
+  facet_wrap(~sex)+
   theme_bw()+
   labs(title = "Height and mass by sex")
 
