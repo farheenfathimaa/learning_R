@@ -297,9 +297,93 @@ library(dplyr)
 starwars %>% 
   filter(mass < 200) %>% 
   ggplot(aes(height, mass, color = sex))+
-  geom_smooth(se = FALSE, method = "loess") + # added se = FALSE to remove confidence interval
+  geom_smooth(method = "loess") + # added se = FALSE to remove confidence interval
   geom_point() + # added geom_point() to include scatter points
   facet_wrap(~sex)+
   theme_bw()+
   labs(title = "Height and mass by sex")
 
+# Analyze
+############
+# Hypothesis testing
+# T-test
+library(gapminder)
+View(gapminder)
+#t_test_plot
+
+gapminder %>% 
+ filter(continent %in% c("Africa", "Europe")) %>% 
+ t.test(lifeExp ~ continent, data = .)
+
+library(gapminder)
+library(ggplot2)
+
+# Filter for Africa and Europe
+gapminder_subset <- gapminder %>%
+  filter(continent %in% c("Africa", "Europe"))
+
+# Create the density plot
+ggplot(gapminder_subset, aes(x = lifeExp, fill = continent)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Density plot of life expectancy in Africa and Europe",
+       x = "Life Expectancy",
+       y = "Density") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  geom_vline(xintercept = mean(gapminder_subset[gapminder_subset$continent == "Africa",]$lifeExp), linetype = "dashed", color = "red") +
+  geom_vline(xintercept = mean(gapminder_subset[gapminder_subset$continent == "Europe",]$lifeExp), linetype = "dashed", color = "steelblue") +
+  annotate("text", x = mean(gapminder_subset[gapminder_subset$continent == "Africa",]$lifeExp), y = 0.075, label = paste("Mean life expectancy\nin Africa =", round(mean(gapminder_subset[gapminder_subset$continent == "Africa",]$lifeExp), 1)), hjust = 0, size = 3, color = "gray30") +
+  annotate("text", x = mean(gapminder_subset[gapminder_subset$continent == "Europe",]$lifeExp), y = 0.075, label = paste("Mean life expectancy\nin Europe =", round(mean(gapminder_subset[gapminder_subset$continent == "Europe",]$lifeExp), 1)), hjust = 1, size = 3, color = "gray30")
+
+# ANOVA
+ANOVA_plot
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  filter(continent %in% c("Americas", "Europe", "Asia")) %>% 
+  aov(lifeExp ~ continent, data = .) %>% 
+  summary()
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  filter(continent %in% c("Americas", "Europe", "Asia")) %>% 
+  aov(lifeExp ~ continent, data = .) %>% 
+  TukeyHSD()
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  filter(continent %in% c("Americas", "Europe", "Asia")) %>% 
+  aov(lifeExp ~ continent, data = .) %>% 
+  TukeyHSD() %>% 
+  plot()
+
+# Chi Squared 
+chi_plot
+
+head(iris)
+
+flowers<- iris %>% 
+  mutate(Size = cut(Sepal.Length,
+                    breaks = 3,
+                    labels = c("Small", "Medium", "Large"))) %>% 
+  select(Species, Size)
+
+# chi Squared goodness of fit test
+flowers %>% 
+  select(Size) %>% 
+  table() %>% 
+  chisq.test()
+
+# chi Squared test of independence
+flowers %>% 
+  table() %>% 
+  chisq.test()
+  
+
+# Linear model
+
+head(cars, 10)
+
+cars %>% 
+  lm(dist ~ speed, data = .) %>% 
+  summary()
