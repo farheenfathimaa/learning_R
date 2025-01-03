@@ -4,7 +4,7 @@ Welcome to this repository focused on R programming for data analysis and visual
 
 This repository explores the concepts covered in the following YouTube video:
 
-Video: [R Data Analysis and Visualization](https://youtu.be/eR-XRSKsuR4?si=CmDH5cywG3xpRErW)
+**Video:** [R Data Analysis and Visualization](https://youtu.be/eR-XRSKsuR4?si=CmDH5cywG3xpRErW)
 
 This video provides a fantastic introduction to performing data analysis and creating insightful visualizations using R.
 
