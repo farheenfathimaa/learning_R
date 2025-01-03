@@ -201,3 +201,5 @@ View(long_data)
 # Describe
 #############
 View(msleep)
+
+# Range / Spread
