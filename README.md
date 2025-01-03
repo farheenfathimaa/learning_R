@@ -32,4 +32,4 @@ This video provides a fantastic introduction to performing data analysis and cre
 3. Install any required packages (instructions are included in the scripts).
 4. Run the code line by line or experiment with modifications.
 
-> Happy learning!
+### *Happy learning!*
